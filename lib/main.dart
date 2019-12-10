@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -36,15 +37,45 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               currentLocation == null
-                  ? CircularProgressIndicator()
-                  : Text("Location:" +
-                      currentLocation["latitude"].toString() +
-                      " " +
-                      currentLocation["longitude"].toString(),style: TextStyle(fontSize: 28),),
+                  ? Text("")
+                  : Text(
+                      "Location:" +
+                          userLocation["latitude"].toString() +
+                          " " +
+                          userLocation["longitude"].toString(),
+                      style: TextStyle(fontSize: 28),
+                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  onPressed: () {
+                    _getLocation().then((value) {
+                      setState(() {
+                        currentLocation = value;
+                      });
+                    });
+                  },
+                  color: Colors.blue,
+                  child: Text(
+                    "Get Location",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<Map<String, double>> _getLocation() async {
+    var currentLocation = <String, double>{};
+    try {
+      currentLocation = await location.getLocation();
+    } catch (e) {
+      currentLocation = null;
+    }
+    return currentLocation;
   }
 }
