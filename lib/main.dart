@@ -40,9 +40,9 @@ class _MyAppState extends State<MyApp> {
                   ? Text("")
                   : Text(
                       "Location:" +
-                          userLocation["latitude"].toString() +
+                          currentLocation["latitude"].toString() +
                           " " +
-                          userLocation["longitude"].toString(),
+                          currentLocation["longitude"].toString(),
                       style: TextStyle(fontSize: 28),
                     ),
               Padding(
